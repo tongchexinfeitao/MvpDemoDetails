@@ -3,6 +3,7 @@ package com.example.mvpdemotwo.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 /**
  * Created by hasee on 2018/1/31.
@@ -23,7 +24,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        Log.e("tag", "BaseActivity  " + " onCreate()  ");
+
+        setContentView(provideLayoutId());
         initView();
         initListener();
         presenter = providePresenter();
@@ -44,20 +47,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void initData() {
     }
 
-    /**
+
+ /**
      * 初始化视图
      */
     protected void initView() {
     }
-
     /**
      * 设置布局ID
      */
-    public abstract int getLayoutId();
+    public abstract int provideLayoutId();
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+        Log.e("tag", "BaseActivity  " + " onDestroy()  ");
     }
 }

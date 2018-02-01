@@ -23,7 +23,7 @@ public class LoginModle {
 
     //model层的login方法，对应presenter中的login方法
     public void login(String mobile, String password, final OnDataCallBack onDataCallBack) {
-
+        Log.e("tag", "LoginModle  " + "login()  ");
         //如果mvc的话，直接在这个位置去联网请求
         //如果是mvp的话，我们需要把联网的操作放到modle中
 
@@ -51,6 +51,8 @@ public class LoginModle {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.e("tag", "LoginModle  " + "onFailure()  ");
+
                 Log.e("tag", "============================onFailure");
                 if (onDataCallBack != null) {
                     onDataCallBack.onGetDataFail(e);
@@ -64,9 +66,17 @@ public class LoginModle {
                 if (response != null && response.body() != null) {
                     String json = response.body().string();
                     LoginBean loginBean = new Gson().fromJson(json, LoginBean.class);
-                    if (onDataCallBack != null) {
-                        onDataCallBack.onGetDataSuccess(loginBean);
+                    String code = loginBean.getCode();
+                    if ("0".equalsIgnoreCase(code)) {
+                        if (onDataCallBack != null) {
+                            onDataCallBack.onGetDataSuccess(loginBean);
+                        }
+                    }else{
+                        if (onDataCallBack != null) {
+                            onDataCallBack.onGetDataFail(new Exception("账号密码错误"));
+                        }
                     }
+
                 }else{
                     if (onDataCallBack != null) {
                         onDataCallBack.onGetDataFail(new Exception("数据返回结果为null"));

@@ -1,6 +1,10 @@
 package com.example.mvpdemotwo.home.view.activity;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,14 +24,14 @@ import com.example.mvpdemotwo.home.view.Iview.ILoginView;
 public class LoginActivity extends BaseActivity<LoginPresenter> implements ILoginView {
 
     public static final String mobile = "15501186623";
-    public static final String password = "123456";
+    public static final String password = "iphoneX";
 
     //点击事件，点击去登录
     public void login(View view) {
+        Log.e("tag", "LoginActivity  " + "login()  ");
         //我们去调用Presenter中的登录方法
         presenter.login(mobile, password);
     }
-
 
     /**
      * 登录成功
@@ -55,6 +59,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
      */
     @Override
     public void loginFail(final Exception e) {
+        Log.e("tag", "LoginActivity  " + "loginFail()  ");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -71,11 +76,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     protected LoginPresenter providePresenter() {
+        Log.e("tag", "LoginActivity  " + " providePresenter()  ");
         return new LoginPresenter(this);
     }
 
     @Override
-    public int getLayoutId() {
+    public int provideLayoutId() {
         return R.layout.activity_main;
     }
 
